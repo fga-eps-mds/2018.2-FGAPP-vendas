@@ -6,5 +6,5 @@ from .views import create_order
 urlpatterns = [
     url(r'^orders/$', views.OrderList.as_view()),
     url(r'^orders/(?P<pk>[0-9]+)/$', views.OrderDetail.as_view()),
-    path('create_order/', create_order),
+    path('create_order', create_order),
 ]

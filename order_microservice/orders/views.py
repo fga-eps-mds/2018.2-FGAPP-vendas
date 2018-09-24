@@ -29,7 +29,7 @@ def create_order(request):
             total_price = total_price)
         return Response(status=HTTP_200_OK)
     except:
-        return Response(status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'Campos incorretos'},status=HTTP_400_BAD_REQUEST)
 
 
 class OrderList(generics.ListCreateAPIView):
