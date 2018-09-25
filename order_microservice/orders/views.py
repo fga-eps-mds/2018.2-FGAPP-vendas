@@ -20,6 +20,9 @@ def create_order(request):
     quantity = request.data.get('quantity')
     total_price = request.data.get('total_price')
 
+    if(fk_product == None or fk_buyer == None or quantity == None or total_price == None):
+        return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
+
     try:
         product = Order.objects.create(
             fk_buyer = fk_buyer,
@@ -29,7 +32,7 @@ def create_order(request):
             total_price = total_price)
         return Response(status=HTTP_200_OK)
     except:
-        return Response({'error':'Campos incorretos'},status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'Campos invalidos'},status=HTTP_400_BAD_REQUEST)
 
 
 class OrderList(generics.ListCreateAPIView):
