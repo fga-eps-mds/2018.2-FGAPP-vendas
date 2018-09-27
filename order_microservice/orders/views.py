@@ -12,6 +12,14 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 
+class OrderList(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
 @api_view(["POST"])
 def create_order(request):
     fk_product = request.data.get('fk_product')
@@ -34,11 +42,13 @@ def create_order(request):
     except:
         return Response({'error':'Campos invalidos'},status=HTTP_400_BAD_REQUEST)
 
+@api_view(["POST"])
+def user_orders(request):
+    product_id = request.data.get('product_id')
 
-class OrderList(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    if(product_id == None):
+        return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
 
-class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    orders = Order.objects.filter(fk_product = product_id).values()
+    return Response(orders, status=HTTP_200_OK)
+
