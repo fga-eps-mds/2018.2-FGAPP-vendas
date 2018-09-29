@@ -27,6 +27,7 @@ def create_order(request):
     buyer_message = request.data.get('buyer_message')
     quantity = request.data.get('quantity')
     total_price = request.data.get('total_price')
+    token = request.data.get('token')
 
     if(fk_product == None or fk_buyer == None or quantity == None or total_price == None):
         return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
@@ -54,4 +55,3 @@ def user_orders(request):
         return Response(orders, status=HTTP_200_OK)
     except:
         return Response({'error':'Dados invalidos'}, status=HTTP_400_BAD_REQUEST)
-
