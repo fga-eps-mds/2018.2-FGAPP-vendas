@@ -40,7 +40,7 @@ def create_order(request):
             total_price = total_price)
         return Response(status=HTTP_200_OK)
     except:
-        return Response({'error':'Campos invalidos'},status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'Dados inválidos'},status=HTTP_400_BAD_REQUEST)
 
 @api_view(["POST"])
 def user_orders(request):
@@ -49,6 +49,9 @@ def user_orders(request):
     if(product_id == None):
         return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
 
-    orders = Order.objects.filter(fk_product = product_id).values()
-    return Response(orders, status=HTTP_200_OK)
+    try:
+        orders = Order.objects.filter(fk_product = product_id).values()
+        return Response(orders, status=HTTP_200_OK)
+    except:
+        return Response({'error':'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
 
