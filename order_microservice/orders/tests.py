@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase
 class CheckOrderAPITest(APITestCase):
 
     def test_create_order(self):
+        # OK if can create
         request_1 = {'fk_product':'1', 'fk_buyer':'1', 'buyer_message':'Estou no MASP do lado da entrada do RU.', 'quantity':'1', 'total_price':'1.23', 'product_name': 'Bolo no Pote'}
         response_1 = self.client.post('/api/create_order', request_1)
         self.assertEqual(response_1.status_code, 200)
@@ -21,13 +22,13 @@ class CheckOrderAPITest(APITestCase):
 
     def test_user_orders(self):
         request_1 = {'product_id':'1'}
-        response_1 = self.client.post('/api/user_orders', request_1)
+        response_1 = self.client.post('/api/user_orders/', request_1)
         self.assertEqual(response_1.status_code, 200)
 
         request_2 = {'product_id':'Errei'}
-        response_2 = self.client.post('/api/user_orders', request_2)
+        response_2 = self.client.post('/api/user_orders/', request_2)
         self.assertEqual(response_2.status_code, 400)
 
         request_3 = {'error':'testing'}
-        response_3 = self.client.post('/api/user_orders', request_3)
+        response_3 = self.client.post('/api/user_orders/', request_3)
         self.assertEqual(response_3.status_code, 400)
