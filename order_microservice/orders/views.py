@@ -28,8 +28,10 @@ def create_order(request):
     quantity = request.data.get('quantity')
     total_price = request.data.get('total_price')
 
-    if(fk_product == None or fk_buyer == None or quantity == None or total_price == None):
-        return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
+    product_name = request.data.get('product_name')
+
+    if(fk_product == None or fk_buyer == None or quantity == None or total_price == None or product_name == None):
+        return Response({'error':'Os campos não podem estar vazios'},status=HTTP_400_BAD_REQUEST)
 
     try:
         product = Order.objects.create(
@@ -37,18 +39,21 @@ def create_order(request):
             fk_product = fk_product,
             buyer_message = buyer_message,
             quantity = quantity,
-            total_price = total_price)
+            total_price = total_price,
+            product_name = product_name)
         return Response(status=HTTP_200_OK)
     except:
-        return Response({'error':'Campos invalidos'},status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'Dados inválidos'},status=HTTP_400_BAD_REQUEST)
 
 @api_view(["POST"])
 def user_orders(request):
     product_id = request.data.get('product_id')
 
     if(product_id == None):
-        return Response({'error':'Campos nao podem estar vazios'},status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'Os campos não podem estar vazios'},status=HTTP_400_BAD_REQUEST)
 
-    orders = Order.objects.filter(fk_product = product_id).values()
-    return Response(orders, status=HTTP_200_OK)
-
+    try:
+        orders = Order.objects.filter(fk_product = product_id).values()
+        return Response(orders, status=HTTP_200_OK)
+    except:
+        return Response({'error':'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
