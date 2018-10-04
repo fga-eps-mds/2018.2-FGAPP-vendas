@@ -8,6 +8,7 @@ class Order(models.Model):
     quantity = models.IntegerField(default= '0')
     total_price = models.FloatField(default= '0.0')
     closed = models.BooleanField(default= False)
+    product_name = models.TextField()
 
     class Meta:
         ordering = ('date',)

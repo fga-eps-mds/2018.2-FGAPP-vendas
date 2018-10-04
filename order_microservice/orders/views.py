@@ -27,9 +27,10 @@ def create_order(request):
     buyer_message = request.data.get('buyer_message')
     quantity = request.data.get('quantity')
     total_price = request.data.get('total_price')
-    token = request.data.get('token')
 
-    if(fk_product == None or fk_buyer == None or quantity == None or total_price == None):
+    product_name = request.data.get('product_name')
+
+    if(fk_product == None or fk_buyer == None or quantity == None or total_price == None or product_name == None):
         return Response({'error':'Os campos não podem estar vazios'},status=HTTP_400_BAD_REQUEST)
 
     try:
@@ -38,7 +39,8 @@ def create_order(request):
             fk_product = fk_product,
             buyer_message = buyer_message,
             quantity = quantity,
-            total_price = total_price)
+            total_price = total_price,
+            product_name = product_name)
         return Response(status=HTTP_200_OK)
     except:
         return Response({'error':'Dados inválidos'},status=HTTP_400_BAD_REQUEST)
