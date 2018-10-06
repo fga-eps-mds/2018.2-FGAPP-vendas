@@ -18,6 +18,6 @@ make
 > sh run-django.sh
 
 # no navegador acesse
-http://localhost:8002/
+http://localhost:8001/
 ```
 
