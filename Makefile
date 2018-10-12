@@ -1,7 +1,15 @@
 default:
-	docker build . -t docker-django
-	docker run --rm -p 8001:8001 -v `pwd`:"/app" -w "/app" --name order-microservice -it docker-django bash
+	docker-compose build
+	docker-compose up
 
 run:
-	docker build . -t docker-django
-	docker run --rm -p 8001:8001 -v `pwd`:"/app" -w "/app" --net=backend --name order-microservice -d docker-django bash -c "sh run-django.sh"
+	echo NEED_UPDATE
+
+enter:
+	docker-compose exec web bash
+
+test:
+	docker-compose exec web bash -c "cd order_microservice && python manage.py test"
+
+production:
+	docker-compose -f docker-compose-production.yml up
