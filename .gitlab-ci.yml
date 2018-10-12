@@ -72,6 +72,6 @@ deploy to heroku:
   stage: deploy
   script:
   - gem install dpl
-  - cd order_microservice && dpl --provider=heroku --app=product-microservice --api-key=$HEROKU_DEV_KEY
+  - cd order_microservice && dpl --provider=heroku --app=order-microservice --api-key=$HEROKU_DEV_KEY
   only:
   - dev
