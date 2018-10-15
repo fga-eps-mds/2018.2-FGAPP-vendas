@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .version_helper import status
+from .views import status
 
 urlpatterns = [
     path('', status),
