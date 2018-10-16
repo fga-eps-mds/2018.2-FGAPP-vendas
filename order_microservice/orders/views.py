@@ -57,3 +57,20 @@ def user_orders(request):
         return Response(orders, status=HTTP_200_OK)
     except:
         return Response({'error':'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
+
+@api_view(["POST"])
+def buyer_orders(request):
+    user_id = request.data.get('user_id')
+
+    if(user_id == None):
+        return Response({'error':'O usuário não foi encontrado.'},status=HTTP_400_BAD_REQUEST)
+
+    try:
+        buyer_orders = Order.objects.filter(fk_buyer = user_id).values()
+        valid_orders = []
+        for order in buyer_orders:
+            if(not order['closed']):
+                valid_orders.append(order)
+        return Response(valid_orders, status=HTTP_200_OK)
+    except:
+        return Response({'error': 'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
