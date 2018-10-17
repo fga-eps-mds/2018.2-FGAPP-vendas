@@ -57,3 +57,20 @@ def user_orders(request):
         return Response(orders, status=HTTP_200_OK)
     except:
         return Response({'error':'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
+
+@api_view(["POST"])
+def set_order_status(request):
+    order_id = request.data.get('order_id')
+    new_status = request.data.get('new_status')
+
+    if(order_id == None or new_status == None):
+        return Response({'error':'Os campos são inválidos'}, status=HTTP_400_BAD_REQUEST)
+
+    try:
+        order = Order.objects.get(id = order_id)
+        order.status = new_status
+        order.save()
+        serialized_order = OrderSerializer(order)
+        return Response(serialized_order.data, status=HTTP_200_OK)
+    except:
+        return Response({'error':'Pedido não existe'}, status=HTTP_400_BAD_REQUEST)

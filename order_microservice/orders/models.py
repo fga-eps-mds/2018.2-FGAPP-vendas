@@ -7,7 +7,7 @@ class Order(models.Model):
     buyer_message = models.CharField(max_length=140)
     quantity = models.IntegerField(default= '0')
     total_price = models.FloatField(default= '0.0')
-    closed = models.BooleanField(default= False)
+    status = models.IntegerField(default= '0')
     product_name = models.TextField()
 
     class Meta:
