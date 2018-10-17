@@ -32,3 +32,16 @@ class CheckOrderAPITest(APITestCase):
         request_3 = {'error':'testing'}
         response_3 = self.client.post('/api/user_orders/', request_3)
         self.assertEqual(response_3.status_code, 400)
+
+    def test_buyer_orders(self):
+          request_1 = {'user_id':'1'}
+          response_1 = self.client.post('/api/buyer_orders/', request_1)
+          self.assertEqual(response_1.status_code, 200)
+
+          request_2 = {'user_id': 'somethingElse'}
+          response_2 = self.client.post('/api/buyer_orders/', request_2)
+          self.assertEqual(response_2.status_code, 400)
+
+          request_3 = {'error': 'testing'}
+          response_3 = self.client.post('/api/buyer_orders/', request_3)
+          self.assertEqual(response_3.status_code, 400)
