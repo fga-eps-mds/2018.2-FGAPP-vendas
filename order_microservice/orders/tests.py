@@ -1,6 +1,8 @@
 from django.test import TestCase
 from .models import Order
 from rest_framework.test import APITestCase
+import json
+from django.core import serializers
 
 class CheckOrderAPITest(APITestCase):
 
@@ -44,6 +46,13 @@ class CheckBuyerOrder(APITestCase):
             total_price = 1,
             product_name ='Test_Name')
         Order.objects.create(
+            fk_buyer = 1,
+            fk_product = 1,
+            buyer_message = 'Test_Message',
+            quantity = 1,
+            total_price = 1,
+            product_name ='Test_Name')
+        Order.objects.create(
             fk_buyer = 2,
             fk_product = 1,
             buyer_message = 'Test_Message',
@@ -72,12 +81,38 @@ class CheckBuyerOrder(APITestCase):
         response = self.client.post('/api/buyer_orders/', request)
         self.assertEqual(response.status_code, 200)
 
+        self.assertEqual(response.data[0]['fk_buyer'], Order.objects.all()[0].fk_buyer)
+        self.assertEqual(response.data[0]['fk_product'], Order.objects.all()[0].fk_product)
+        self.assertEqual(response.data[0]['buyer_message'], Order.objects.all()[0].buyer_message)
+        self.assertEqual(response.data[0]['quantity'], Order.objects.all()[0].quantity)
+        self.assertEqual(response.data[0]['total_price'], Order.objects.all()[0].total_price)
+        self.assertEqual(response.data[0]['closed'], Order.objects.all()[0].closed)
+        self.assertEqual(response.data[0]['product_name'], Order.objects.all()[0].product_name)
+
+        self.assertEqual(response.data[1]['fk_buyer'], Order.objects.all()[1].fk_buyer)
+        self.assertEqual(response.data[1]['fk_product'], Order.objects.all()[1].fk_product)
+        self.assertEqual(response.data[1]['buyer_message'], Order.objects.all()[1].buyer_message)
+        self.assertEqual(response.data[1]['quantity'], Order.objects.all()[1].quantity)
+        self.assertEqual(response.data[1]['total_price'], Order.objects.all()[1].total_price)
+        self.assertEqual(response.data[1]['closed'], Order.objects.all()[1].closed)
+        self.assertEqual(response.data[1]['product_name'], Order.objects.all()[1].product_name)
+
     def test_buyer_orders_with_invalid_parms(self):
         request = {'user_id': 'somethingElse'}
         response = self.client.post('/api/buyer_orders/', request)
         self.assertEqual(response.status_code, 400)
 
+        error = {'error': 'Dados inválidos'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        self.assertEqual(response.data, loaded_error)
+
     def test_buyer_orders_with_missing_parms(self):
         request = {'error': 'testing'}
         response = self.client.post('/api/buyer_orders/', request)
         self.assertEqual(response.status_code, 400)
+
+        error = {'error':'O usuário não foi encontrado.'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        self.assertEqual(response.data, loaded_error)

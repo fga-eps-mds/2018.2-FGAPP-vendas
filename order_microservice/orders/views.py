@@ -11,6 +11,7 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
 )
 from rest_framework.response import Response
+import json
 
 class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
@@ -63,7 +64,10 @@ def buyer_orders(request):
     user_id = request.data.get('user_id')
 
     if(user_id == None):
-        return Response({'error':'O usuário não foi encontrado.'},status=HTTP_400_BAD_REQUEST)
+        error = {'error':'O usuário não foi encontrado.'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        return Response(data=loaded_error,status=HTTP_400_BAD_REQUEST)
 
     try:
         buyer_orders = Order.objects.filter(fk_buyer = user_id).values()
@@ -73,4 +77,7 @@ def buyer_orders(request):
                 valid_orders.append(order)
         return Response(valid_orders, status=HTTP_200_OK)
     except:
-        return Response({'error': 'Dados inválidos'}, status=HTTP_400_BAD_REQUEST)
+        error = {'error': 'Dados inválidos'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        return Response(data=loaded_error, status=HTTP_400_BAD_REQUEST)
