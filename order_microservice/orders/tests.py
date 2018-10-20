@@ -34,14 +34,34 @@ class CheckOrderAPITest(APITestCase):
         self.assertEqual(response_3.status_code, 400)
 
     def test_buyer_orders(self):
-          request_1 = {'user_id':'1'}
-          response_1 = self.client.post('/api/buyer_orders/', request_1)
-          self.assertEqual(response_1.status_code, 200)
+        request_1 = {'user_id':'1'}
+        response_1 = self.client.post('/api/buyer_orders/', request_1)
+        self.assertEqual(response_1.status_code, 200)
 
-          request_2 = {'user_id': 'somethingElse'}
-          response_2 = self.client.post('/api/buyer_orders/', request_2)
-          self.assertEqual(response_2.status_code, 400)
+        request_2 = {'user_id': 'somethingElse'}
+        response_2 = self.client.post('/api/buyer_orders/', request_2)
+        self.assertEqual(response_2.status_code, 400)
 
-          request_3 = {'error': 'testing'}
-          response_3 = self.client.post('/api/buyer_orders/', request_3)
-          self.assertEqual(response_3.status_code, 400)
+        request_3 = {'error': 'testing'}
+        response_3 = self.client.post('/api/buyer_orders/', request_3)
+        self.assertEqual(response_3.status_code, 400)
+
+        Order.objects.create(
+            fk_buyer = 1,
+            fk_product = 1,
+            buyer_message = 'Test_Message',
+            quantity = 1,
+            total_price = 1,
+            product_name ='Test_Name')
+
+        Order.objects.create(
+            fk_buyer = 2,
+            fk_product = 1,
+            buyer_message = 'Test_Message',
+            quantity = 1,
+            total_price = 1,
+            product_name ='Test_Name')
+
+        request_4 = {'user_id':'1'}
+        response_4 = self.client.post('/api/buyer_orders/', request_4)
+        self.assertEqual(response_4.status_code, 200)
