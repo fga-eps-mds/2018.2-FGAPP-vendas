@@ -1,7 +1,7 @@
 from django.urls import include, path
 from django.conf.urls import url
 from orders import views
-from .views import create_order, user_orders, set_order_status
+from .views import create_order, user_orders, set_order_status, buyer_orders
 
 urlpatterns = [
     url(r'^orders/$', views.OrderList.as_view()),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('create_order/', create_order),
     path('user_orders/', user_orders),
     path('set_order_status/', set_order_status),
+    path('buyer_orders/', buyer_orders),
 ]

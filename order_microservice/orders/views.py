@@ -11,6 +11,7 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
 )
 from rest_framework.response import Response
+import json
 
 class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
@@ -74,3 +75,25 @@ def set_order_status(request):
         return Response(serialized_order.data, status=HTTP_200_OK)
     except:
         return Response({'error':'Pedido não existe'}, status=HTTP_400_BAD_REQUEST)
+
+def buyer_orders(request):
+    user_id = request.data.get('user_id')
+
+    if(user_id == None):
+        error = {'error':'O usuário não foi encontrado.'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        return Response(data=loaded_error,status=HTTP_400_BAD_REQUEST)
+
+    try:
+        buyer_orders = Order.objects.filter(fk_buyer = user_id).values()
+        valid_orders = []
+        for order in buyer_orders:
+            if(not order['closed']):
+                valid_orders.append(order)
+        return Response(valid_orders, status=HTTP_200_OK)
+    except:
+        error = {'error': 'Dados inválidos'}
+        error = json.dumps(error)
+        loaded_error = json.loads(error)
+        return Response(data=loaded_error, status=HTTP_400_BAD_REQUEST)
