@@ -67,8 +67,8 @@ class CheckBuyerOrder(APITestCase):
         create_new_order(fk_buyer=1)
         create_new_order(fk_buyer=1)
         create_new_order(fk_buyer=2)
-        create_new_order(fk_buyer=1, closed=True)
-        create_new_order(fk_buyer=2, closed=True)
+        create_new_order(fk_buyer=1, status=1)
+        create_new_order(fk_buyer=2, status=1)
 
     def test_buyer_orders_with_valid_parms(self):
         request = {'user_id':'1'}
@@ -111,7 +111,7 @@ def correct_dates(order, json_data):
 
     return serialized, json_data
 
-def create_new_order(fk_buyer, closed=False):
+def create_new_order(fk_buyer, status=0):
 
     buyer_message = 'Test Message'
     product_name = 'Test Name'
@@ -120,6 +120,7 @@ def create_new_order(fk_buyer, closed=False):
     total_price = 1
 
     Order.objects.create(
+        status = status,
         fk_buyer = fk_buyer,
         fk_product = fk_product,
         buyer_message = buyer_message,

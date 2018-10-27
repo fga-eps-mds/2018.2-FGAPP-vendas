@@ -76,6 +76,7 @@ def set_order_status(request):
     except:
         return Response({'error':'Pedido não existe'}, status=HTTP_400_BAD_REQUEST)
 
+@api_view(["POST"])
 def buyer_orders(request):
     user_id = request.data.get('user_id')
 
@@ -89,7 +90,7 @@ def buyer_orders(request):
         buyer_orders = Order.objects.filter(fk_buyer = user_id).values()
         valid_orders = []
         for order in buyer_orders:
-            if(not order['closed']):
+            if(order['status'] == 0):
                 valid_orders.append(order)
         return Response(valid_orders, status=HTTP_200_OK)
     except:
