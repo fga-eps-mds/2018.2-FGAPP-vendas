@@ -3,3 +3,4 @@ djangorestframework==3.8.2
 requests==2.19.1
 Pillow==5.2.0
 psycopg2==2.7.5
+python-decouple==3.1

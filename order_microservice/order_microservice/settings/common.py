@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from decouple import config
+from order_microservice.file_helper import file_get_contents
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -95,3 +97,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+VERSION = config('VERSION', default='0.0')
+print("config: " + VERSION)
+
+if VERSION == "0.0":
+    try:
+        VERSION = file_get_contents("../VERSION")
+    except:
+        VERSION = "-1"
