@@ -1,16 +1,12 @@
-FROM python:3
+FROM python:3.5.6-slim-stretch
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code
-
-ADD ./order_microservice /code
+ADD . /code
+WORKDIR /code/order_microservice
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements/prod.txt
 
-RUN python manage.py makemigrations && \
-    python manage.py migrate
-
 EXPOSE 8000
 
-CMD python manage.py runserver 0.0.0.0:8000
+ENTRYPOINT python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
