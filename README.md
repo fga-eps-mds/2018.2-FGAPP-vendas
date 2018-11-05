@@ -4,6 +4,7 @@
 [![pipeline status](https://gitlab.com/integra-vendas/order-microservice/badges/master/pipeline.svg)](https://gitlab.com/integra-vendas/order-microservice/commits/master)
 [![Build Status](https://travis-ci.com/fga-eps-mds/2018.2-FGAPP-vendas.svg?branch=master)](https://travis-ci.com/fga-eps-mds/2018.2-FGAPP-vendas)
 [![codecov](https://codecov.io/gh/fga-eps-mds/2018.2-FGAPP-vendas/branch/master/graph/badge.svg)](https://codecov.io/gh/fga-eps-mds/2018.2-FGAPP-vendas)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2f5c9925f1c6fcfe11d9/maintainability)](https://codeclimate.com/github/fga-eps-mds/2018.2-FGAPP-vendas/maintainability)
 
 Esse repositório está sendo utilizado com o próposito de manter um microserviço associado ao projeto de MDS/EPS, que são materias ministradas na Universidade de Brasília.
 
