@@ -84,7 +84,6 @@ target/
 *.pyc
 __pycache__/
 local_settings.py
-order_microservice/orders/migrations/*
 
 .env
 db.sqlite3
