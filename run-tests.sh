@@ -1,3 +1,5 @@
+set -e
+
 cd order_microservice
 pip install -r requirements/dev.txt
 python manage.py makemigrations
