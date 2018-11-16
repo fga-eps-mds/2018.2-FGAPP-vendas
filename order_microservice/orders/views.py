@@ -82,9 +82,7 @@ def buyer_orders(request):
 
     if(user_id == None):
         error = {'error':'O usuário não foi encontrado.'}
-        error = json.dumps(error)
-        loaded_error = json.loads(error)
-        return Response(data=loaded_error,status=HTTP_400_BAD_REQUEST)
+        return Response(data=error,status=HTTP_400_BAD_REQUEST)
 
     try:
         buyer_orders = Order.objects.filter(fk_buyer = user_id).values()
@@ -95,6 +93,4 @@ def buyer_orders(request):
         return Response(valid_orders, status=HTTP_200_OK)
     except:
         error = {'error': 'Dados inválidos'}
-        error = json.dumps(error)
-        loaded_error = json.loads(error)
-        return Response(data=loaded_error, status=HTTP_400_BAD_REQUEST)
+        return Response(data=error, status=HTTP_400_BAD_REQUEST)
